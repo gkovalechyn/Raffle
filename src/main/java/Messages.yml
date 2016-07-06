@@ -1,0 +1,24 @@
+ColorCharacter: "&"
+Error:
+    NoPermission: Você não tem a permissão {Permission} para executar esse comando.
+    ConsoleNotSupported: Esse comando não suporta o console.
+    NotEnoughMoney: Você não tem dinheiro o suficiente para fazer isso.
+    
+General:
+    Header: "&4-----&9Sorteio&4-----"
+    Footer: "&4-----------------------"
+    
+Commands:
+    Create:
+        Description: Cria um sorteio.
+        Usage: /sorteio criar <fichas> <preco> <duracao>
+        Created: Sorteio criado.
+        AlreadyExists: Você já tem um sorteio ativo.
+        NoItem: Você não tem um item na mão.
+        ItemBlocked: Você não pode sortear esse item.
+    Buy:
+        Description: Compra as fichas para um sorteio.
+        Usage: /sorteio comprar <player> <quantidade>
+    Cancel:
+        Description: Cancela um sorteio.
+        Usage: /sorteio cancelar [player]

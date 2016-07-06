@@ -1,0 +1,7 @@
+Commands:
+    BaseCommand: sorteio
+    Create: criar
+    Buy: comprar
+    Cancel: cancelar
+Options:
+    Cost: 100.0

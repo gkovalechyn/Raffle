@@ -1,0 +1,5 @@
+name: Raffle
+version: 0.1
+author: gkovalechyn
+
+main: net.gkovalechyn.raffle.Raffle
