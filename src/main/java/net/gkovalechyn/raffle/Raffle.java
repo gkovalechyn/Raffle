@@ -41,7 +41,7 @@ public class Raffle extends JavaPlugin{
     @Override
     public void onEnable(){
         if (!this.setupEconomy()){
-            this.getLogger().severe("Could not find vault!");
+            this.getLogger().severe("Vault has no economy plugin!");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -55,7 +55,7 @@ public class Raffle extends JavaPlugin{
         this.worker = new RaffleWorker(this);
         
         rce = new RaffleCommandExecutor(this);
-        this.registerCustomCommand(this.getConfig().getString("Options.BaseCommand"), new FlexibleCommand(this.getConfig().getString("Options.BaseCommand"), rce));
+        this.registerCustomCommand(this.getConfig().getString("Commands.BaseCommand"), new FlexibleCommand(this.getConfig().getString("Commands.BaseCommand"), rce));
         
         this.load();
         
@@ -121,7 +121,8 @@ public class Raffle extends JavaPlugin{
         File f = new File(this.getDataFolder(), file);
         
         if (!f.exists()){
-            this.getLogger().severe("The message file in the configuration does not exist.");
+            this.getLogger().warning("The message file in the configuration does not exist.");
+            this.getLogger().warning("Generating the default file.");
             File defaultFile = new File(this.getDataFolder(), "Messages.yml");
             
             if (!(defaultFile).exists()){
