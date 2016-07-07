@@ -8,27 +8,27 @@ For this I will be using "Raffle" as the base command; "Create" as the create su
 etc.
 
 FOR ALL THE COMMANDS:
-<> - Means that it is necessary to have that argument.
+<> - Means that it is necessary to have that argument.  
 [] - Meant that that argument is optional.
 	
-###/raffle <buy|cancel|list|create> 
+* /raffle <buy|cancel|list|create> 
 Main command, no permission needed.
 
-###/raffle buy <Player> <Amount>
+* /raffle buy <Player> <Amount>
 Buys the tickets from that player's raffle.
 Permission: Raffle.Cmd.Buy
 	
-###/raffle cancel [Player]
+* /raffle cancel [Player]
 Cancels a raffle or another player's raffle.
 Permission: Raffle.Cmd.Cancel
 	
 For cancelling another player's raffle, you will need to have the permission: Raffle.Cmds.Cancel.Others
 	
-###/raffle list
+* /raffle list
 Lists all the raffles that are currently active.
 Permission: Raffle.Cmd.List
 	
-###/raffle create <Tickets> <Price> <Duration>
+* /raffle create <Tickets> <Price> <Duration>
 Creates a raffle by using the item in your hand.
 
 Permission: Raffle.Cmd.Create
