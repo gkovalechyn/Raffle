@@ -7,3 +7,7 @@ Commands:
 Options:
     Cost: 100.0
     MessagesFile: Messages.yml
+    BlockedItems:
+        - 1
+        - 2
+        - 3:1

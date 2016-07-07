@@ -51,6 +51,8 @@ public class Raffle extends JavaPlugin{
         
         this.loadMessagesFile();
         
+        this.loadBlockedItems();
+        
         this.raffleManager = new RaffleManager(this);
         this.worker = new RaffleWorker(this);
         
@@ -67,6 +69,23 @@ public class Raffle extends JavaPlugin{
         this.save();
     }
 
+    private void loadBlockedItems(){
+        for(String s : this.getConfig().getStringList("Options.BlockedItems")){
+            IdDataWrapper wrapper = new IdDataWrapper();
+            
+            if (s.contains(":")){
+                String[] temp = s.split(":");
+                
+                wrapper.id = Integer.parseInt(temp[0]);
+                wrapper.data = Byte.parseByte(temp[1]);
+            }else{
+                wrapper.id = Integer.parseInt(s);
+            }
+            
+            this.blockedItems.add(wrapper);
+        }
+    }
+    
     public RaffleManager getRaffleManager() {
         return raffleManager;
     }
