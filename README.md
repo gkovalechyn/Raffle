@@ -11,10 +11,10 @@ FOR ALL THE COMMANDS:
 <> - Means that it is necessary to have that argument.  
 [] - Meant that that argument is optional.
 	
-* /raffle << buy|cancel|list|create >>
+* /raffle < buy|cancel|list|create >
 Main command, no permission needed.
 
-* /raffle buy << Player >> << Amount >>
+* /raffle buy < Player > < Amount >
 Buys the tickets from that player's raffle.
 Permission: Raffle.Cmd.Buy
 	
@@ -28,7 +28,7 @@ For cancelling another player's raffle, you will need to have the permission: Ra
 Lists all the raffles that are currently active.
 Permission: Raffle.Cmd.List
 	
-* /raffle create << Tickets >> << Price >> << Duration >>
+* /raffle create < Tickets > < Price > < Duration >
 Creates a raffle by using the item in your hand.
 
 Permission: Raffle.Cmd.Create
