@@ -8,11 +8,13 @@ package net.gkovalechyn.raffle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import net.gkovalechyn.raffle.util.Util;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -41,6 +43,23 @@ public class RaffleWorker implements Runnable, YamlSerializable {
                 plugin.getRaffleManager().runRaffle(entry.getKey());
             } else if (data.getStart() + data.getDuration() < now) {
                 plugin.getRaffleManager().cancelRaffle(entry.getKey());
+            }
+        }
+        
+        for(Map.Entry<UUID, List<ItemStack>> entry : new HashSet<>(this.notOnlineWinners.entrySet())){
+            Player player = this.plugin.getServer().getPlayer(entry.getKey());
+            
+            if (player != null){
+                List<ItemStack> items = entry.getValue();
+                
+                while(player.getInventory().firstEmpty() > 0 && !items.isEmpty()){
+                    player.getInventory().addItem(items.get(items.size() - 1));
+                    items.remove(items.size() - 1);
+                }
+            }
+            
+            if (this.notOnlineWinners.get(entry.getKey()).isEmpty()){
+                this.notOnlineWinners.remove(entry.getKey());
             }
         }
 
