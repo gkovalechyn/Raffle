@@ -53,6 +53,7 @@ public class RaffleWorker implements Runnable, YamlSerializable {
                 List<ItemStack> items = entry.getValue();
                 
                 while(player.getInventory().firstEmpty() > 0 && !items.isEmpty()){
+                    //Retarded optimization
                     player.getInventory().addItem(items.get(items.size() - 1));
                     items.remove(items.size() - 1);
                 }

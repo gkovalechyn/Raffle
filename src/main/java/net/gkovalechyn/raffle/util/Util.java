@@ -173,11 +173,11 @@ public class Util {
             ItemMeta meta = result.getItemMeta();
             
             if (meta == null){
-                Bukkit.getItemFactory().getItemMeta(result.getType());
+                meta = Bukkit.getItemFactory().getItemMeta(result.getType());
             }
             
             meta.setDisplayName(metaSection.getString("Name"));
-            meta.setLore(section.getStringList("Lore"));
+            meta.setLore(metaSection.getStringList("Lore"));
             
             for(String s : metaSection.getStringList("Enchantments")){
                 String[] temp = s.split(",");

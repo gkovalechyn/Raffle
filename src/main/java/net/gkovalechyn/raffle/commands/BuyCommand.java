@@ -66,7 +66,7 @@ public class BuyCommand implements ICommand{
         }
         
         if (toBuyFrom.canBuyTickets()){
-            if (toBuyFrom.getTicketAmount() - toBuyFrom.getSoldTickets() > amountToBuy){
+            if (toBuyFrom.getTicketAmount() - toBuyFrom.getSoldTickets() >= amountToBuy){
                 toBuyFrom.buyTicket(((Player) sender).getUniqueId(), amountToBuy);
                 plugin.getEconomy().withdrawPlayer((Player) sender, amountToBuy * toBuyFrom.getPrice());
                 //Leave it to the checker thread to run the raffle
