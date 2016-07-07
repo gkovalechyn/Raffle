@@ -8,6 +8,7 @@ package net.gkovalechyn.raffle;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import net.gkovalechyn.raffle.util.Util;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,17 +17,19 @@ import org.bukkit.inventory.ItemStack;
  * @author gkovalechyn
  */
 public class RaffleData implements YamlSerializable{
-    private final UUID owner;
-    private final ItemStack item;
-    private final int ticketAmount;
-    private final double price;
+    private UUID owner;
+    private ItemStack item;
+    private int ticketAmount;
+    private double price;
+    private String ownerName;
     
     private final Map<UUID, Integer> boughtTickets = new HashMap<>();
     private int soldTickets = 0;
     
     private long duration = 0l;
     
-    private final long start;
+    private long start;
+    
     public RaffleData(UUID owner, ItemStack item, int ticketAmount, double price) {
         this(owner, item, ticketAmount, price, 0);
     }
@@ -82,14 +85,72 @@ public class RaffleData implements YamlSerializable{
         return ticketAmount;
     }
 
-    @Override
-    public void serialize(ConfigurationSection fc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public long getStart() {
+        return start;
+    }
+
+    public Map<UUID, Integer> getBoughtTickets() {
+        //Fuck it, not returning a new map
+        return boughtTickets;
     }
 
     @Override
-    public void deserialize(ConfigurationSection fc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void serialize(ConfigurationSection cs) {
+        ConfigurationSection buyers = cs.createSection("Buyers");
+        
+        cs.set("Owner", this.owner.toString());
+        cs.set("OwnerName", ownerName);
+        cs.set("Start", Long.toString(this.start));
+        cs.set("Duration", Long.toString(this.duration));
+        
+        cs.set("TotalTickets", Integer.toString(this.ticketAmount));
+        cs.set("SoldTickets", Integer.toString((this.soldTickets)));
+        cs.set("Price", Double.toString(this.price));
+        
+        Util.serializeItem(cs.createSection("Item"), this.item);
+        
+        for(Map.Entry<UUID, Integer> entry : this.boughtTickets.entrySet()){
+            buyers.set(entry.getKey().toString(), entry.getValue().toString());
+        }
+    }
+
+    @Override
+    public void deserialize(ConfigurationSection cs) {
+        ConfigurationSection buyers = cs.createSection("Buyers");
+        
+        this.owner = UUID.fromString(cs.getString("Owner"));
+        this.ownerName = cs.getString("OwnerName");
+        this.start = Long.parseLong(cs.getString("Start"));
+        this.duration = Long.parseLong(cs.getString("Duration"));
+        
+        this.ticketAmount = cs.getInt("TotalTickets");
+        this.soldTickets = cs.getInt("SoldTickets");
+        this.price = cs.getDouble("Price");
+        
+        for(String s : buyers.getKeys(false)){
+            UUID uuid = UUID.fromString(s);
+            this.boughtTickets.put(uuid, buyers.getInt(s));
+        }
     }
     
 }

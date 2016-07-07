@@ -3,5 +3,7 @@ Commands:
     Create: criar
     Buy: comprar
     Cancel: cancelar
+    List: listar
 Options:
     Cost: 100.0
+    MessagesFile: Messages.yml

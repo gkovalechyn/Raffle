@@ -3,7 +3,8 @@ Error:
     NoPermission: Você não tem a permissão {Permission} para executar esse comando.
     ConsoleNotSupported: Esse comando não suporta o console.
     NotEnoughMoney: Você não tem dinheiro o suficiente para fazer isso.
-    
+    NoRaffleSelf: Você não sorteou nenhum item.
+    NoRaffleOther: Esse player não sorteou nenhum item.
 General:
     Header: "&4-----&9Sorteio&4-----"
     Footer: "&4-----------------------"
@@ -22,3 +23,12 @@ Commands:
     Cancel:
         Description: Cancela um sorteio.
         Usage: /sorteio cancelar [player]
+        Cancelled: Sorteio cancelado.
+        CantBuy: Você não pode mais comprar tickets desse sorteio.
+        CantBuyAmount: Você não pode comprar essa quantia de tickets.
+        Bought: Você comprou os tickets.
+    List:
+        Description: Mostra todos os sorteios ativos.
+        Format: "。 {Name} : {Sold}/{Total} @ {Cost} por unidade. {Remaining} até acabar."
+    Info:
+        Description: Mostra as informações de um sorteio.

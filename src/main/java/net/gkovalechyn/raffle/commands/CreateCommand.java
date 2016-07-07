@@ -22,10 +22,10 @@ import org.bukkit.inventory.ItemStack;
  */
 public class CreateCommand implements ICommand{
 
-    // create <tickets> <preco> <duracao>
+    //raffle create <tickets> <preco> <duracao>
     @Override
     public void execute(CommandSender sender, String[] args, Raffle plugin) {
-        if (args.length < 3){
+        if (args.length < 4){
             sender.sendMessage(Message.CMD_CREATE_USAGE.getText());
             return;
         }
@@ -35,6 +35,11 @@ public class CreateCommand implements ICommand{
         long duration = 0;
         RaffleData data = null;
         ItemStack item = null;
+        
+        if (!plugin.getEconomy().has(player, plugin.getCost())){
+            sender.sendMessage(Message.ERROR_NO_MONEY.getText());
+            return;
+        }
         
         if (plugin.getRaffleManager().hasRaffle(player.getUniqueId())){
             sender.sendMessage(Message.CMD_CREATE_ALREADY_EXISTS.getText());
@@ -56,17 +61,24 @@ public class CreateCommand implements ICommand{
         
         
         try{
-            ticketAmount = Integer.parseInt(args[0]);
-            cost = Double.parseDouble(args[1]);
-            duration = Util.timeStringToLong(args[2]);
+            ticketAmount = Integer.parseInt(args[1]);
+            cost = Double.parseDouble(args[2]);
+            duration = Util.timeStringToLong(args[3]);
         }catch(NumberFormatException e){
             sender.sendMessage(Message.CMD_CREATE_USAGE.getText());
             return;
         }
         
         data = new RaffleData(player.getUniqueId(), item, ticketAmount, cost, duration);
+        data.setOwnerName(player.getName());
+        
+        player.setItemInHand(new ItemStack(Material.AIR));
+        
         plugin.getRaffleManager().putRaffle(player.getUniqueId(), data);
+        plugin.getEconomy().withdrawPlayer(player, plugin.getCost());
         sender.sendMessage(Message.CMD_CREATE_CREATED.getText());
+        
+        plugin.save();
     }
 
     @Override

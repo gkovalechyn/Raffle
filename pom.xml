@@ -19,9 +19,9 @@
         </repository>
         
         <repository>
-		<id>milkbowl-repo</id>
-		<url>http://ci.milkbowl.net/plugin/repository/everything/</url>
-	</repository>
+            <id>vault-repo</id>
+            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+        </repository>
     </repositories>
     
     <dependencies>
@@ -42,18 +42,10 @@
         
         <dependency>
 		<groupId>net.milkbowl.vault</groupId>
-		<artifactId>Vault</artifactId>
-		<version>1.2.16-SNAPSHOT</version>
+                <artifactId>VaultAPI</artifactId>
+                <version>1.5</version>
+                <scope>provided</scope>
 	</dependency>
-        
-        
-        <dependency>
-            <groupId>spigot_local</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/spigot.jar</systemPath>
-          </dependency>
     </dependencies>
 
 

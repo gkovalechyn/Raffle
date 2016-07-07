@@ -5,15 +5,26 @@
  */
 package net.gkovalechyn.raffle.util;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 /**
  *
  * @author gkovalechyn
  */
 public class Util {
+
     private static final StringBuilder STRING_BUILDER = new StringBuilder(64);
     private static final Pattern TIME_PATTERN = Pattern.compile("\\d{1,}[mhdwMys]");
 
@@ -36,6 +47,15 @@ public class Util {
 
     public static String unescapeString(String orig) {
         return orig.replaceAll("\\n", "\n").replaceAll("\\t", "\t");
+    }
+
+    public static String timespanToString(long l) {
+        long days = TimeUnit.DAYS.toDays(l);
+        long hr = TimeUnit.MILLISECONDS.toHours(l) - TimeUnit.DAYS.toMillis(days);
+        long min = TimeUnit.MILLISECONDS.toMinutes(l - TimeUnit.HOURS.toMillis(hr));
+        long sec = TimeUnit.MILLISECONDS.toSeconds(l - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min));
+
+        return String.format("%02dd %02dH:%02d:02d", days, hr, min, sec);
     }
 
     public static int LevenshteinDistance(CharSequence lhs, CharSequence rhs) {
@@ -116,5 +136,57 @@ public class Util {
             res += l;
         }
         return res;
+    }
+
+    public static void serializeItem(ConfigurationSection section, ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        
+        section.set("ID", item.getTypeId());
+        section.set("Data", item.getData().getData());
+        section.set("Amount", item.getAmount());
+        section.set("Durability", item.getDurability());
+        
+        if (meta != null){
+            ConfigurationSection metaSection = section.createSection("Meta");
+            List<String> enchantments = new ArrayList<>(4);
+            
+            metaSection.set("Name", meta.getDisplayName());
+            metaSection.set("Lore", meta.getLore());
+            
+            for(Map.Entry<Enchantment, Integer> entry : meta.getEnchants().entrySet()){
+                enchantments.add(entry.getKey().getName() + "," + entry.getValue());
+            }
+            
+            metaSection.set("Enchantments", enchantments);
+        }
+    }
+
+    public static ItemStack deserializeItem(ConfigurationSection section) {
+        ItemStack result = new ItemStack(section.getInt("ID"));
+        ConfigurationSection metaSection = section.getConfigurationSection("Meta");
+        
+        result.setData(new MaterialData(section.getInt("ID"), (byte) section.getInt("Data")));
+        result.setDurability((short) section.getInt("Durability"));
+        result.setAmount(section.getInt("Amount"));
+        
+        if (metaSection != null){
+            ItemMeta meta = result.getItemMeta();
+            
+            if (meta == null){
+                Bukkit.getItemFactory().getItemMeta(result.getType());
+            }
+            
+            meta.setDisplayName(metaSection.getString("Name"));
+            meta.setLore(section.getStringList("Lore"));
+            
+            for(String s : metaSection.getStringList("Enchantments")){
+                String[] temp = s.split(",");
+                meta.addEnchant(Enchantment.getByName(temp[1]), Integer.parseInt(temp[1]), true);
+            }
+            
+            result.setItemMeta(meta);
+        }
+        
+        return result;
     }
 }

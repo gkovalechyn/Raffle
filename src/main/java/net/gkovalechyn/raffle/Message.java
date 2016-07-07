@@ -22,6 +22,8 @@ public enum Message {
     ERROR_CONSOLE_NOT_SUPPORTED("Error.ConsoleNotSupported"),
     ERROR_NO_PERMISSION("Error.NoPermission"),
     ERROR_NO_MONEY("Error.NotEnoughMoney"),
+    ERROR_NO_RAFFLE_SELF("Error.NoRaffleSelf"),
+    ERROR_NO_RAFFLE_OTHER("Error.NoRaffleOther"),
     
     CMD_CREATE_DESC("Commands.Create.Description"),
     CMD_CREATE_USAGE("Commands.Create.Usage"),
@@ -32,9 +34,18 @@ public enum Message {
     
     CMD_CANCEL_DESC("Commands.Cancel.Description"),
     CMD_CANCEL_USAGE("Commands.Cancel.Usage"),
+    CMD_CANCEL_CANCELLED("Commands.Cancel.Cancelled"),
     
     CMD_BUY_DESC("Commands.Buy.Description"),
     CMD_BUY_USAGE("Commands.Buy.Usage"),
+    CMD_BUY_CANTBUY("Commands.Buy.CantBuy"),
+    CMD_BUY_CANTBUYAMOUNT("Commands.Buy.CantBuyAmount"),
+    CMD_BUY_BOUGHT("Commands.Buy.Bought"),
+    
+    CMD_LIST_DESC("Commands.List.Description"),
+    CMD_LIST_FORMAT("Commands.List.Format"),
+    
+    CMD_INFO_DESC("Commands.Info.Description"),
     
     INV_NAME("Inventory.Name"),
     INV_BACK("Inventory.GoBack"),

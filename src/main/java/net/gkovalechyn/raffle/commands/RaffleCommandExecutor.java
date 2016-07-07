@@ -27,6 +27,8 @@ public class RaffleCommandExecutor implements CommandExecutor{
 
     public RaffleCommandExecutor(Raffle plugin) {
         this.plugin = plugin;
+        
+        this.registerCommands();
     }
     
     
@@ -36,15 +38,13 @@ public class RaffleCommandExecutor implements CommandExecutor{
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args2) {
         String[] args = this.fixArguments(args2);
-        if (args.length == 0) {
-            StringBuilder builder = new StringBuilder(64);
-            
+        if (args.length == 0) {          
             sender.sendMessage(Message.GENERAL_HEADER.getText());
+            
             for (Map.Entry<String, ICommand> entry : this.commands.entrySet()) {
-                builder.append("・").append(entry.getKey()).append(" - ").append(entry.getValue().getDescription());
-                sender.sendMessage(builder.toString());
-                builder.setLength(0);
+                sender.sendMessage("・" + entry.getKey() + " - " + entry.getValue().getDescription());
             }
+            
             sender.sendMessage(Message.GENERAL_FOOTER.getText());
             
             return true;
@@ -68,6 +68,13 @@ public class RaffleCommandExecutor implements CommandExecutor{
                 return true;
             }
         }
+    }
+    
+    private void registerCommands(){
+        this.commands.put(plugin.getConfig().getString("Commands.Create"), new CreateCommand());
+        this.commands.put(plugin.getConfig().getString("Commands.Buy"), new BuyCommand());
+        this.commands.put(plugin.getConfig().getString("Commands.Cancel"), new CancelCommand());
+        this.commands.put(plugin.getConfig().getString("Commands.List"), new ListCommand());
     }
     
     private String[] fixArguments(String[] args) {

@@ -7,15 +7,23 @@ package net.gkovalechyn.raffle;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
 /**
  *
  * @author gkovalechyn
  */
 public class RaffleManager implements YamlSerializable{
+    private final Raffle plugin;
     private final Map<UUID, RaffleData> raffles = new HashMap<>();
+
+    public RaffleManager(Raffle plugin) {
+        this.plugin = plugin;
+    }
 
     public boolean hasRaffle(UUID player){
         return this.raffles.containsKey(player);
@@ -30,20 +38,82 @@ public class RaffleManager implements YamlSerializable{
     }
     
     public void cancelRaffle(UUID owner){
+        RaffleData data = this.raffles.get(owner);
         
+        if (data != null){
+            Player player = Bukkit.getPlayer(owner);
+            this.plugin.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(owner), plugin.getCost());
+            
+            for(Map.Entry<UUID, Integer> entry : data.getBoughtTickets().entrySet()){
+                this.plugin.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(entry.getKey()), entry.getValue() * data.getPrice());
+            }
+            
+            if (player != null){
+                if (player.getInventory().firstEmpty() > 0){
+                    player.getInventory().addItem(data.getItem());
+                }else{
+                    plugin.getWorker().addItemToGive(owner, data.getItem());
+                }
+            }else{
+                plugin.getWorker().addItemToGive(owner, data.getItem());
+            }
+            
+            this.raffles.remove(owner);
+        }
     }
     
     public void runRaffle(UUID owner){
+        RaffleData data = this.raffles.get(owner);
         
+        if (data != null){
+            Random r = new Random();
+            int value = r.nextInt(data.getTicketAmount());
+            int total = 0;
+            
+            for(Map.Entry<UUID, Integer> entry : data.getBoughtTickets().entrySet()){
+                total += entry.getValue();
+                
+                if (value < total){
+                    Player p = this.plugin.getServer().getPlayer(entry.getKey());
+                    
+                    if (p == null){
+                        this.plugin.getWorker().addItemToGive(entry.getKey(), data.getItem());
+                    }else{
+                        if (p.getInventory().firstEmpty() > 0){
+                            p.getInventory().addItem(data.getItem());
+                        }else{
+                            this.plugin.getWorker().addItemToGive(entry.getKey(), data.getItem());
+                        }
+                    }
+                    break;
+                }
+            }
+            
+            this.plugin.getEconomy().depositPlayer(this.plugin.getServer().getOfflinePlayer(owner), data.getSoldTickets() * data.getPrice());
+            this.raffles.remove(owner);
+        }
+    }
+    
+    public RaffleData getRaffle(UUID uuid){
+        return this.raffles.get(uuid);
     }
 
     @Override
     public void serialize(ConfigurationSection fc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(Map.Entry<UUID, RaffleData> entry : this.raffles.entrySet()){
+            entry.getValue().serialize(fc.createSection(entry.getKey().toString()));
+        }
     }
 
     @Override
     public void deserialize(ConfigurationSection fc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(String s : fc.getKeys(false)){
+            UUID uuid = UUID.fromString(s);
+            RaffleData data = new RaffleData(uuid, null, 0, 0);
+            
+            data.deserialize(fc.getConfigurationSection(s));
+            
+            this.raffles.put(uuid, data);
+        }
     }
 }
