@@ -17,6 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public enum Message {
     GENERAL_HEADER("General.Header"),
     GENERAL_FOOTER("General.Footer"),
+    GENERAL_WIN("General.Win"),
     
     ERROR_NO_COMMAND("Error.NoSuchCommand"),
     ERROR_CONSOLE_NOT_SUPPORTED("Error.ConsoleNotSupported"),

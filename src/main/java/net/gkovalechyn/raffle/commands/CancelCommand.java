@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
  */
 public class CancelCommand implements ICommand {
 
+    //Raffle cancel <id>
     @Override
     public void execute(CommandSender sender, String[] args, Raffle plugin) {
         if (args.length == 1) {

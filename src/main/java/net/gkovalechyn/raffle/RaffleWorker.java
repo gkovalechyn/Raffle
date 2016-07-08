@@ -54,6 +54,7 @@ public class RaffleWorker implements Runnable, YamlSerializable {
                 
                 while(player.getInventory().firstEmpty() > 0 && !items.isEmpty()){
                     //Retarded optimization
+                    //@TODO need to add a message saying that the player won the raffle
                     player.getInventory().addItem(items.get(items.size() - 1));
                     items.remove(items.size() - 1);
                 }

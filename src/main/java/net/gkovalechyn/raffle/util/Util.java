@@ -50,12 +50,36 @@ public class Util {
     }
 
     public static String timespanToString(long l) {
-        long days = TimeUnit.DAYS.toDays(l);
-        long hr = TimeUnit.MILLISECONDS.toHours(l - TimeUnit.DAYS.toMillis(days));
-        long min = TimeUnit.MILLISECONDS.toMinutes(l - TimeUnit.DAYS.toMillis(days) - TimeUnit.HOURS.toMillis(hr));
-        long sec = TimeUnit.MILLISECONDS.toSeconds(l - TimeUnit.DAYS.toMillis(days) -  TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min));
+        long days = 0;
+        long hours = 0;
+        long minutes = 0;
+        long seconds = 0;
 
-        return String.format("%02dd %02dH:%02d:02d", days, hr, min, sec);
+        if (l > 86400000l){
+            long div = l / 86400000l;
+            days += div;
+            l -= 86400000l * div;
+        }
+        
+        if (l > 3600000l){
+            long div = l / 3600000l;
+            hours += div;
+            l -= 3600000l * div;
+        }
+        
+        if (l > 60000l){
+            long div = l / 60000l;
+            minutes += div;
+            l -= 60000l * div;
+        }
+        
+        if (l > 1000l){
+            long div = l / 1000l;
+            seconds += div;
+            l -= 1000l * div;
+        }
+        
+        return String.format("%02dd %02dH:%02d:%02d", days, hours, minutes, seconds);
     }
 
     public static int LevenshteinDistance(CharSequence lhs, CharSequence rhs) {

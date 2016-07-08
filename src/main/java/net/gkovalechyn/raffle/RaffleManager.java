@@ -50,6 +50,7 @@ public class RaffleManager implements YamlSerializable {
             }
 
             if (player != null && player.getInventory().firstEmpty() > 0) {
+                player.sendMessage(Message.CMD_CANCEL_CANCELLED.getText());
                 player.getInventory().addItem(data.getItem());
             } else {
                 plugin.getWorker().addItemToGive(owner, data.getItem());
@@ -75,6 +76,7 @@ public class RaffleManager implements YamlSerializable {
 
                     if (p != null && p.getInventory().firstEmpty() > 0) {
                         p.getInventory().addItem(data.getItem());
+                        p.sendMessage(Message.GENERAL_WIN.getTextReplaced("{Player}", data.getOwnerName()));
                     } else {
                         this.plugin.getWorker().addItemToGive(entry.getKey(), data.getItem());
                     }

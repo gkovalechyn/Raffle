@@ -8,6 +8,7 @@ Error:
 General:
     Header: "&4-----&9Sorteio&4-----"
     Footer: "&4-----------------------"
+    Win: Você ganhou o sorteio do player {Player}
     
 Commands:
     Create:
