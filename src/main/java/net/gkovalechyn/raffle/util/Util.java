@@ -51,9 +51,9 @@ public class Util {
 
     public static String timespanToString(long l) {
         long days = TimeUnit.DAYS.toDays(l);
-        long hr = TimeUnit.MILLISECONDS.toHours(l -  - TimeUnit.DAYS.toMillis(days));
-        long min = TimeUnit.MILLISECONDS.toMinutes(l - TimeUnit.HOURS.toMillis(hr));
-        long sec = TimeUnit.MILLISECONDS.toSeconds(l - TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min));
+        long hr = TimeUnit.MILLISECONDS.toHours(l - TimeUnit.DAYS.toMillis(days));
+        long min = TimeUnit.MILLISECONDS.toMinutes(l - TimeUnit.DAYS.toMillis(days) - TimeUnit.HOURS.toMillis(hr));
+        long sec = TimeUnit.MILLISECONDS.toSeconds(l - TimeUnit.DAYS.toMillis(days) -  TimeUnit.HOURS.toMillis(hr) - TimeUnit.MINUTES.toMillis(min));
 
         return String.format("%02dd %02dH:%02d:02d", days, hr, min, sec);
     }
