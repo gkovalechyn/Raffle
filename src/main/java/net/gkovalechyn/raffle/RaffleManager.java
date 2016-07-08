@@ -42,17 +42,22 @@ public class RaffleManager implements YamlSerializable {
         RaffleData data = this.raffles.get(owner);
 
         if (data != null) {
-            Player player = Bukkit.getPlayer(owner);
+            Player player = this.plugin.getServer().getPlayer(owner);
             this.plugin.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(owner), plugin.getCost());
 
             for (Map.Entry<UUID, Integer> entry : data.getBoughtTickets().entrySet()) {
                 this.plugin.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(entry.getKey()), entry.getValue() * data.getPrice());
             }
 
-            if (player != null && player.getInventory().firstEmpty() > 0) {
+            if (player != null) {
                 player.sendMessage(Message.CMD_CANCEL_CANCELLED.getText());
-                player.getInventory().addItem(data.getItem());
-            } else {
+
+                if (player.getInventory().firstEmpty() > 0) {
+                    player.getInventory().addItem(data.getItem());
+                } else {
+                    plugin.getWorker().addItemToGive(owner, data.getItem());
+                }
+            }else{
                 plugin.getWorker().addItemToGive(owner, data.getItem());
             }
 
@@ -74,11 +79,16 @@ public class RaffleManager implements YamlSerializable {
                 if (value < total) {
                     Player p = this.plugin.getServer().getPlayer(entry.getKey());
 
-                    if (p != null && p.getInventory().firstEmpty() > 0) {
-                        p.getInventory().addItem(data.getItem());
+                    if (p != null) {
                         p.sendMessage(Message.GENERAL_WIN.getTextReplaced("{Player}", data.getOwnerName()));
-                    } else {
-                        this.plugin.getWorker().addItemToGive(entry.getKey(), data.getItem());
+                        
+                        if (p.getInventory().firstEmpty() > 0) {
+                            p.getInventory().addItem(data.getItem());
+                        } else {
+                            this.plugin.getWorker().addItemToGive(entry.getKey(), data.getItem());
+                        }
+                    }else{
+                        plugin.getWorker().addItemToGive(entry.getKey(), data.getItem());
                     }
                     break;
                 }
@@ -105,7 +115,7 @@ public class RaffleManager implements YamlSerializable {
         for (String s : fc.getKeys(false)) {
             UUID uuid = UUID.fromString(s);
             RaffleData data = new RaffleData(uuid, null, 0, 0);
-
+            
             data.deserialize(fc.getConfigurationSection(s));
 
             this.raffles.put(uuid, data);

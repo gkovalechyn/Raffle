@@ -65,6 +65,10 @@ public class RaffleData implements YamlSerializable{
         }
     }
     
+    public boolean areTicketsAvailable(){
+        return this.soldTickets < this.ticketAmount;
+    }
+    
     public boolean canBuyTickets(){
         return this.soldTickets < this.ticketAmount &&
                 System.currentTimeMillis() < this.start + this.duration;
@@ -121,12 +125,12 @@ public class RaffleData implements YamlSerializable{
         
         cs.set("Owner", this.owner.toString());
         cs.set("OwnerName", ownerName);
-        cs.set("Start", Long.toString(this.start));
-        cs.set("Duration", Long.toString(this.duration));
+        cs.set("Start", this.start);
+        cs.set("Duration", this.duration);
         
-        cs.set("TotalTickets", Integer.toString(this.ticketAmount));
-        cs.set("SoldTickets", Integer.toString((this.soldTickets)));
-        cs.set("Price", Double.toString(this.price));
+        cs.set("TotalTickets", this.ticketAmount);
+        cs.set("SoldTickets", this.soldTickets);
+        cs.set("Price", this.price);
         
         Util.serializeItem(cs.createSection("Item"), this.item);
         
@@ -137,16 +141,18 @@ public class RaffleData implements YamlSerializable{
 
     @Override
     public void deserialize(ConfigurationSection cs) {
-        ConfigurationSection buyers = cs.createSection("Buyers");
-        
+        ConfigurationSection buyers = cs.getConfigurationSection("Buyers");
+                
         this.owner = UUID.fromString(cs.getString("Owner"));
         this.ownerName = cs.getString("OwnerName");
-        this.start = Long.parseLong(cs.getString("Start"));
-        this.duration = Long.parseLong(cs.getString("Duration"));
+        this.start = cs.getLong("Start");
+        this.duration = cs.getLong("Duration");
         
         this.ticketAmount = cs.getInt("TotalTickets");
         this.soldTickets = cs.getInt("SoldTickets");
         this.price = cs.getDouble("Price");
+        
+        this.item = Util.deserializeItem(cs.getConfigurationSection("Item"));
         
         for(String s : buyers.getKeys(false)){
             UUID uuid = UUID.fromString(s);

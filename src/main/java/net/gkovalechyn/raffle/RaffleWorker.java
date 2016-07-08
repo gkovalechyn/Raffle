@@ -39,9 +39,9 @@ public class RaffleWorker implements Runnable, YamlSerializable {
         for (Map.Entry<UUID, RaffleData> entry : plugin.getRaffleManager().getRaffles().entrySet()) {
             RaffleData data = entry.getValue();
 
-            if (!data.canBuyTickets()) {
+            if (!data.areTicketsAvailable()) {
                 plugin.getRaffleManager().runRaffle(entry.getKey());
-            } else if (data.getStart() + data.getDuration() < now) {
+            } else if (now > data.getStart() + data.getDuration()) {
                 plugin.getRaffleManager().cancelRaffle(entry.getKey());
             }
         }
@@ -58,17 +58,18 @@ public class RaffleWorker implements Runnable, YamlSerializable {
                     player.getInventory().addItem(items.get(items.size() - 1));
                     items.remove(items.size() - 1);
                 }
-            }
-            
-            if (this.notOnlineWinners.get(entry.getKey()).isEmpty()){
-                this.notOnlineWinners.remove(entry.getKey());
+                
+                if (this.notOnlineWinners.get(entry.getKey()).isEmpty()){
+                    this.notOnlineWinners.remove(entry.getKey());
+                }
             }
         }
 
         i++;
 
-        if (i % 6 == 0) {
+        if (i % 6 == 0) { //Save every 3 minutes
             this.plugin.save();
+            i = 0;
         }
     }
 

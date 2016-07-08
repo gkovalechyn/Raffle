@@ -205,7 +205,7 @@ public class Util {
             
             for(String s : metaSection.getStringList("Enchantments")){
                 String[] temp = s.split(",");
-                meta.addEnchant(Enchantment.getByName(temp[1]), Integer.parseInt(temp[1]), true);
+                meta.addEnchant(Enchantment.getByName(temp[0]), Integer.parseInt(temp[1]), true);
             }
             
             result.setItemMeta(meta);

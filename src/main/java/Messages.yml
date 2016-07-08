@@ -1,6 +1,7 @@
 ColorCharacter: "&"
 Error:
     NoPermission: Você não tem a permissão {Permission} para executar esse comando.
+    NoSuchCommand: Esse comando não existe.
     ConsoleNotSupported: Esse comando não suporta o console.
     NotEnoughMoney: Você não tem dinheiro o suficiente para fazer isso.
     NoRaffleSelf: Você não sorteou nenhum item.
