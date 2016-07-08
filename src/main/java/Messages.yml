@@ -20,13 +20,13 @@ Commands:
     Buy:
         Description: Compra as fichas para um sorteio.
         Usage: /sorteio comprar <player> <quantidade>
+        CantBuy: Você não pode mais comprar tickets desse sorteio.
+        CantBuyAmount: Você não pode comprar essa quantia de tickets.
+        Bought: Você comprou os tickets.
     Cancel:
         Description: Cancela um sorteio.
         Usage: /sorteio cancelar [player]
         Cancelled: Sorteio cancelado.
-        CantBuy: Você não pode mais comprar tickets desse sorteio.
-        CantBuyAmount: Você não pode comprar essa quantia de tickets.
-        Bought: Você comprou os tickets.
     List:
         Description: Mostra todos os sorteios ativos.
         Format: "。 {Name} : {Sold}/{Total} @ {Cost} por unidade. {Remaining} até acabar."

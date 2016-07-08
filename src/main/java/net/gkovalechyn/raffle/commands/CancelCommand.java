@@ -22,7 +22,7 @@ public class CancelCommand implements ICommand {
 
     @Override
     public void execute(CommandSender sender, String[] args, Raffle plugin) {
-        if (args.length == 0) {
+        if (args.length == 1) {
             if (sender instanceof ConsoleCommandSender) {
                 sender.sendMessage(Message.ERROR_CONSOLE_NOT_SUPPORTED.getText());
                 return;
