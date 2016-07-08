@@ -66,7 +66,8 @@ public class RaffleData implements YamlSerializable{
     }
     
     public boolean canBuyTickets(){
-        return this.soldTickets < this.ticketAmount;
+        return this.soldTickets < this.ticketAmount &&
+                System.currentTimeMillis() < this.start + this.duration;
     }
     
     public int getSoldTickets(){
