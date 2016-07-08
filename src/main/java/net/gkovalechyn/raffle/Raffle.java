@@ -53,6 +53,8 @@ public class Raffle extends JavaPlugin{
         
         this.loadBlockedItems();
         
+        this.cost = this.getConfig().getInt("Options.Cost");
+        
         this.raffleManager = new RaffleManager(this);
         this.worker = new RaffleWorker(this);
         
