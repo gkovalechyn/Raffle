@@ -25,7 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author gkovalechyn
  */
 public class Raffle extends JavaPlugin{
-    private static final String VERSION = "0.1";
+    private static final String VERSION = "0.2";
     
     private RaffleManager raffleManager;
     
