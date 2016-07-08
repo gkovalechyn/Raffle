@@ -28,12 +28,12 @@ public class BuyCommand implements ICommand{
             sender.sendMessage(Message.CMD_BUY_USAGE.getText());
             return;
         }
-        Player target = plugin.getServer().getPlayer(args[0]);
+        Player target = plugin.getServer().getPlayer(args[1]);
         int amountToBuy = 0;
         RaffleData toBuyFrom = null;
         
         try{
-            amountToBuy = Integer.parseInt(args[1]);
+            amountToBuy = Integer.parseInt(args[2]);
         }catch(NumberFormatException e){
             sender.sendMessage(Message.CMD_BUY_USAGE.getText());
             return;

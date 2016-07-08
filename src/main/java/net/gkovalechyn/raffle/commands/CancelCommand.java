@@ -37,11 +37,11 @@ public class CancelCommand implements ICommand {
             plugin.getRaffleManager().cancelRaffle(player.getUniqueId());
             sender.sendMessage(Message.CMD_CANCEL_CANCELLED.getText());
         } else if (sender.hasPermission("Raffle.Cmds.Cancel.Others")) {
-            Player player = plugin.getServer().getPlayer(args[0]);
+            Player player = plugin.getServer().getPlayer(args[1]);
             
             if (player == null){
                 for(Map.Entry<UUID, RaffleData> entry : plugin.getRaffleManager().getRaffles().entrySet()){
-                    if (args[0].equals(entry.getValue().getOwnerName())){
+                    if (args[1].equals(entry.getValue().getOwnerName())){
                         plugin.getRaffleManager().cancelRaffle(entry.getKey());
                         sender.sendMessage(Message.CMD_CANCEL_CANCELLED.getText());
                         return;
