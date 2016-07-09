@@ -6,10 +6,12 @@ Error:
     NotEnoughMoney: Você não tem dinheiro o suficiente para fazer isso.
     NoRaffleSelf: Você não sorteou nenhum item.
     NoRaffleOther: Esse player não sorteou nenhum item.
+    InventoryFull: O seu inventário está cheio, o item será entregue depois.
 General:
     Header: "&4-----&9Sorteio&4-----"
     Footer: "&4-----------------------"
     Win: Você ganhou o sorteio do player {Player}
+    GlobalWin: "{Winner} ganhou o sorteio do player {Player}"
     
 Commands:
     Create:

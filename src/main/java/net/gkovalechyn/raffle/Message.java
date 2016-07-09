@@ -18,6 +18,7 @@ public enum Message {
     GENERAL_HEADER("General.Header"),
     GENERAL_FOOTER("General.Footer"),
     GENERAL_WIN("General.Win"),
+    GENERAL_GLOBAL_WIN("General.GlobalWin"),
     
     ERROR_NO_COMMAND("Error.NoSuchCommand"),
     ERROR_CONSOLE_NOT_SUPPORTED("Error.ConsoleNotSupported"),
@@ -25,6 +26,7 @@ public enum Message {
     ERROR_NO_MONEY("Error.NotEnoughMoney"),
     ERROR_NO_RAFFLE_SELF("Error.NoRaffleSelf"),
     ERROR_NO_RAFFLE_OTHER("Error.NoRaffleOther"),
+    ERROR_INVENTORY_FULL("Error.InventoryFull"),
     
     CMD_CREATE_DESC("Commands.Create.Description"),
     CMD_CREATE_USAGE("Commands.Create.Usage"),

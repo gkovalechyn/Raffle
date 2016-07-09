@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -52,10 +53,11 @@ public class RaffleManager implements YamlSerializable {
             if (player != null) {
                 player.sendMessage(Message.CMD_CANCEL_CANCELLED.getText());
 
-                if (player.getInventory().firstEmpty() > 0) {
-                    player.getInventory().addItem(data.getItem());
-                } else {
+                if (player.getInventory().firstEmpty() < 0) {
+                    player.sendMessage(Message.ERROR_INVENTORY_FULL.getText());
                     plugin.getWorker().addItemToGive(owner, data.getItem());
+                } else {
+                    player.getInventory().addItem(data.getItem());
                 }
             }else{
                 plugin.getWorker().addItemToGive(owner, data.getItem());
@@ -78,13 +80,22 @@ public class RaffleManager implements YamlSerializable {
 
                 if (value < total) {
                     Player p = this.plugin.getServer().getPlayer(entry.getKey());
-
+                    OfflinePlayer offlinePlayer = this.plugin.getServer().getOfflinePlayer(entry.getKey());
+                    
+                    if (this.plugin.isToBroadcastWin()){
+                        this.plugin.getServer().broadcastMessage(Message.GENERAL_GLOBAL_WIN.getTextReplaced(
+                                "{Winner}", offlinePlayer.getName(),
+                                "{Player}", data.getOwnerName()
+                        ));
+                    }
+                    
                     if (p != null) {
                         p.sendMessage(Message.GENERAL_WIN.getTextReplaced("{Player}", data.getOwnerName()));
                         
                         if (p.getInventory().firstEmpty() > 0) {
                             p.getInventory().addItem(data.getItem());
                         } else {
+                            p.sendMessage(Message.ERROR_INVENTORY_FULL.getText());
                             this.plugin.getWorker().addItemToGive(entry.getKey(), data.getItem());
                         }
                     }else{

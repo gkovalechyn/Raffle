@@ -104,6 +104,10 @@ public class Raffle extends JavaPlugin{
         return worker;
     }
     
+    public boolean isToBroadcastWin(){
+        return this.getConfig().getBoolean("Options.BroadcastWin");
+    }
+    
     private void load(){
         File dataFile = new File(this.getDataFolder(), "Data.yml");
         
