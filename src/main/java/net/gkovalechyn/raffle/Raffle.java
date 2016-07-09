@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.gkovalechyn.raffle.commands.FlexibleCommand;
 import net.gkovalechyn.raffle.commands.RaffleCommandExecutor;
+import net.gkovalechyn.raffle.gui.InventoryManager;
 import net.gkovalechyn.raffle.util.IdDataWrapper;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.CommandMap;
@@ -28,6 +29,7 @@ public class Raffle extends JavaPlugin{
     private static final String VERSION = "0.2";
     
     private RaffleManager raffleManager;
+    private InventoryManager inventoryManager;
     
     private final List<IdDataWrapper> blockedItems = new ArrayList<>();
     
@@ -90,6 +92,10 @@ public class Raffle extends JavaPlugin{
     
     public RaffleManager getRaffleManager() {
         return raffleManager;
+    }
+
+    public InventoryManager getInventoryManager() {
+        return inventoryManager;
     }
 
     public Economy getEconomy() {

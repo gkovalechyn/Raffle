@@ -51,8 +51,10 @@ public enum Message {
     CMD_INFO_DESC("Commands.Info.Description"),
     
     INV_NAME("Inventory.Name"),
-    INV_BACK("Inventory.GoBack"),
-    INV_FORWARD("Inventory.Forward"),
+    INV_NEXT("Inventory.Next"),
+    INV_PREVIOUS("Inventory.Previous"),
+    INV_BUY("Inventory.Buy"),
+    
     DUMMY("null");
     
     private static FileConfiguration config;

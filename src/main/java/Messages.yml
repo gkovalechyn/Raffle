@@ -12,6 +12,11 @@ General:
     Footer: "&4-----------------------"
     Win: Você ganhou o sorteio do player {Player}
     GlobalWin: "{Winner} ganhou o sorteio do player {Player}"
+Inventory:
+    Name: Página {Page}
+    Next: "Próxima página: {Page}"
+    Previous: "Página anterior: {Page}"
+    Buy: Comprar
     
 Commands:
     Create:

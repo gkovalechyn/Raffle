@@ -8,15 +8,17 @@ package net.gkovalechyn.raffle.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 /**
@@ -212,5 +214,20 @@ public class Util {
         }
         
         return result;
+    }
+    
+    public static void setSkullHeadMeta(ItemStack skull, String playerName){
+        if (skull.getType() == Material.SKULL_ITEM){
+            SkullMeta meta = (SkullMeta) skull.getItemMeta();
+            
+            if (meta == null){
+                meta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
+            }
+            
+            meta.setOwner(playerName);
+            meta.setDisplayName(ChatColor.LIGHT_PURPLE + playerName);
+            
+            skull.setItemMeta(meta);
+        }
     }
 }
