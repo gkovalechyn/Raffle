@@ -66,11 +66,13 @@ public class BuyCommand implements ICommand{
         }
         
         if (toBuyFrom.areTicketsAvailable()){
-            if (toBuyFrom.getTicketAmount() - toBuyFrom.getSoldTickets() >= amountToBuy){
+            if (amountToBuy <= toBuyFrom.getAvailableTicketCount()){
                 toBuyFrom.buyTicket(((Player) sender).getUniqueId(), amountToBuy);
                 plugin.getEconomy().withdrawPlayer((Player) sender, amountToBuy * toBuyFrom.getPrice());
                 sender.sendMessage(Message.CMD_BUY_BOUGHT.getText());
                 //Leave it to the checker thread to run the raffle
+                
+                plugin.getInventoryManager().updateListData(toBuyFrom);
             }else{
                 sender.sendMessage(Message.CMD_BUY_CANTBUYAMOUNT.getText());
             }

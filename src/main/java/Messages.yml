@@ -17,7 +17,7 @@ Inventory:
     Next: "Próxima página: {Page}"
     Previous: "Página anterior: {Page}"
     Buy: Comprar
-    
+    Tickets: Ainda há {Tickets} sobrando.
 Commands:
     Create:
         Description: Cria um sorteio.

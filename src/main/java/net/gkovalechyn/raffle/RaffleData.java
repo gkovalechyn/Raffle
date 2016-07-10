@@ -119,6 +119,9 @@ public class RaffleData implements YamlSerializable{
         return boughtTickets;
     }
 
+    public int getAvailableTicketCount(){
+        return this.ticketAmount - this.soldTickets;
+    }
     @Override
     public void serialize(ConfigurationSection cs) {
         ConfigurationSection buyers = cs.createSection("Buyers");

@@ -54,6 +54,7 @@ public enum Message {
     INV_NEXT("Inventory.Next"),
     INV_PREVIOUS("Inventory.Previous"),
     INV_BUY("Inventory.Buy"),
+    INV_TICKETS("Inventory.Tickets"),
     
     DUMMY("null");
     

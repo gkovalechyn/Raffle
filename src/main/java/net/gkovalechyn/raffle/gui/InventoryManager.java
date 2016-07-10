@@ -22,14 +22,34 @@ public class InventoryManager {
     private InventoryWrapper[] inventories = null;
     private Map<RaffleData, InventoryWrapper> dataInvMap = new HashMap<>();
     private final Raffle plugin;
-
+    
     public InventoryManager(Raffle plugin) {
         this.plugin = plugin;
     }
     
     
     public boolean isOurInventory(Inventory inv){
+        if (this.inventories != null){
+            for(InventoryWrapper wrapper : this.inventories){
+                if (wrapper.getInv().equals(inv)){
+                    return true;
+                }
+            }
+        }
         
+        return false;
+    }
+    
+    public InventoryWrapper getInventoryByPage(int page){
+        if (this.inventories == null){
+            this.rebuildInventories(this.plugin.getRaffleManager().getRaffles());
+        }
+        
+        if (page > 0){
+            return this.inventories[page % this.inventories.length];
+        }else{
+            return this.inventories[0];
+        }
     }
     
     private void rebuildInventories(Map<UUID, RaffleData> raffles){
@@ -38,10 +58,14 @@ public class InventoryManager {
         if (pages == 0){
             pages = 1;
         }
+        
+        this.dataInvMap.clear();
+        this.inventories = new InventoryWrapper[pages];
+        
     }
     
     public InventoryWrapper getRaffleInventory(RaffleData data){
-        if (this.inventories == null || this.inventories.length == 0){
+        if (this.inventories == null){
             this.rebuildInventories(this.plugin.getRaffleManager().getRaffles());
         }
         
@@ -50,10 +74,12 @@ public class InventoryManager {
     
     public void removeFromList(RaffleData data){
         
+        this.rebuildInventories(plugin.getRaffleManager().getRaffles());
     }
     
     public void addToList(RaffleData data){
         
+        this.rebuildInventories(plugin.getRaffleManager().getRaffles());
     }
     
     public void updateListData(RaffleData data){
