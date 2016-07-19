@@ -76,6 +76,7 @@ public class CreateCommand implements ICommand{
         
         plugin.getRaffleManager().putRaffle(player.getUniqueId(), data);
         plugin.getEconomy().withdrawPlayer(player, plugin.getCost());
+        plugin.getInventoryManager().rebuildInventories();
         sender.sendMessage(Message.CMD_CREATE_CREATED.getText());
         
         plugin.save();

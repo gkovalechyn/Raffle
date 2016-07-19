@@ -58,7 +58,10 @@ public class Raffle extends JavaPlugin{
         this.cost = this.getConfig().getInt("Options.Cost");
         
         this.raffleManager = new RaffleManager(this);
+        this.inventoryManager = new InventoryManager(this);
         this.worker = new RaffleWorker(this);
+        
+        this.inventoryManager.rebuildInventories();
         
         rce = new RaffleCommandExecutor(this);
         this.registerCustomCommand(this.getConfig().getString("Commands.BaseCommand"), new FlexibleCommand(this.getConfig().getString("Commands.BaseCommand"), rce));

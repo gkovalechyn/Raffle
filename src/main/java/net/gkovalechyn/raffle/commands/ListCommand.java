@@ -20,7 +20,7 @@ import org.bukkit.command.CommandSender;
  * Created on 07/07/2016, 17:14:42
  */
 public class ListCommand implements ICommand{
-
+    
     @Override
     public void execute(CommandSender sender, String[] args, Raffle plugin) {
         sender.sendMessage(Message.GENERAL_HEADER.getText());

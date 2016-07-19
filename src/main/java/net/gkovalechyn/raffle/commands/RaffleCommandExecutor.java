@@ -75,6 +75,7 @@ public class RaffleCommandExecutor implements CommandExecutor{
         this.commands.put(plugin.getConfig().getString("Commands.Buy"), new BuyCommand());
         this.commands.put(plugin.getConfig().getString("Commands.Cancel"), new CancelCommand());
         this.commands.put(plugin.getConfig().getString("Commands.List"), new ListCommand());
+        this.commands.put(plugin.getConfig().getString("Commands.GUI"), new GuiCommand());
     }
     
     private String[] fixArguments(String[] args) {

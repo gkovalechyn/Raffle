@@ -50,6 +50,8 @@ public enum Message {
     
     CMD_INFO_DESC("Commands.Info.Description"),
     
+    CMD_GUI_DESC("Commands.GUI.Description"),
+    
     INV_NAME("Inventory.Name"),
     INV_NEXT("Inventory.Next"),
     INV_PREVIOUS("Inventory.Previous"),

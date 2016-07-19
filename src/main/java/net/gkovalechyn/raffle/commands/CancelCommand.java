@@ -56,6 +56,7 @@ public class CancelCommand implements ICommand {
                 }
                 
                 plugin.getRaffleManager().cancelRaffle(player.getUniqueId());
+                plugin.getInventoryManager().rebuildInventories();
                 sender.sendMessage(Message.CMD_CANCEL_CANCELLED.getText());
             }
         } else {

@@ -63,7 +63,7 @@ public class RaffleManager implements YamlSerializable {
                 plugin.getWorker().addItemToGive(owner, data.getItem());
             }
             
-            plugin.getInventoryManager().removeFromList(data);
+            plugin.getInventoryManager().rebuildInventories();
             this.raffles.remove(owner);
         }
     }
@@ -108,7 +108,7 @@ public class RaffleManager implements YamlSerializable {
 
             this.plugin.getEconomy().depositPlayer(this.plugin.getServer().getOfflinePlayer(owner), data.getSoldTickets() * data.getPrice());
             this.raffles.remove(owner);
-            plugin.getInventoryManager().removeFromList(data);
+            plugin.getInventoryManager().rebuildInventories();
         }
     }
 

@@ -20,7 +20,7 @@ import org.bukkit.inventory.Inventory;
  */
 public class InventoryManager {
     private InventoryWrapper[] inventories = null;
-    private Map<RaffleData, InventoryWrapper> dataInvMap = new HashMap<>();
+    private final Map<RaffleData, InventoryWrapper> dataInvMap = new HashMap<>();
     private final Raffle plugin;
     
     public InventoryManager(Raffle plugin) {
@@ -52,8 +52,14 @@ public class InventoryManager {
         }
     }
     
+    public void rebuildInventories(){
+        this.rebuildInventories(plugin.getRaffleManager().getRaffles());
+    }
+    
     private void rebuildInventories(Map<UUID, RaffleData> raffles){
         int pages = (int) Math.ceil(raffles.size() / 5d);
+        int currentPage = 0;
+        int currentLine = 0;
         
         if (pages == 0){
             pages = 1;
@@ -62,6 +68,16 @@ public class InventoryManager {
         this.dataInvMap.clear();
         this.inventories = new InventoryWrapper[pages];
         
+        for(Map.Entry<UUID, RaffleData> entry : raffles.entrySet()){
+            this.inventories[currentPage].setLine(currentLine, entry.getValue());
+            this.dataInvMap.put(entry.getValue(), this.inventories[currentPage]);
+            
+            currentLine++;
+            if (currentLine > 5){
+                currentLine = 0;
+                currentPage++;
+            }
+        }
     }
     
     public InventoryWrapper getRaffleInventory(RaffleData data){
@@ -72,17 +88,11 @@ public class InventoryManager {
         return this.dataInvMap.get(data);
     }
     
-    public void removeFromList(RaffleData data){
-        
-        this.rebuildInventories(plugin.getRaffleManager().getRaffles());
-    }
-    
-    public void addToList(RaffleData data){
-        
-        this.rebuildInventories(plugin.getRaffleManager().getRaffles());
-    }
-    
     public void updateListData(RaffleData data){
+        InventoryWrapper wrapper = this.dataInvMap.get(data);
         
+        if (wrapper != null){
+            wrapper.updateData(data);
+        }
     }
 }

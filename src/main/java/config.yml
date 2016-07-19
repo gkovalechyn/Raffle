@@ -4,6 +4,7 @@ Commands:
     Buy: comprar
     Cancel: cancelar
     List: listar
+    GUI: gui
 Options:
     Cost: 100.0
     MessagesFile: Messages.yml

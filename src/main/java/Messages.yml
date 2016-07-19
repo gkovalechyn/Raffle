@@ -41,3 +41,5 @@ Commands:
         Format: "。 {Name} : {Sold}/{Total} @ {Cost} por unidade. {Remaining} até acabar."
     Info:
         Description: Mostra as informações de um sorteio.
+    GUI:
+        Description: Abre o menu.
